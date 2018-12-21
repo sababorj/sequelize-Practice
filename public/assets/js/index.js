@@ -13,10 +13,22 @@ $(document).ready( function(){
     }
 
     getAllUserData();
-
-    // $("#user-form").on('submit', function(){
-    //     var id = 
-    //     var password = 
-    // })
+    $("#user-form").on("submit", function(e){
+        e.preventDefault();
+        var userObj = {
+            email: $("#user-email").val().trim(),
+            password: $("#user-password").val().trim(),
+            luckyNumber: $("#user-lucky-number").val().trim(),
+        };
+        $.post("/api/users", userObj, function(data){
+            if(data) {
+                console.log(data);
+                getAllUserData();
+                $("#user-email").val("");
+                $("#user-password").val("");
+                $("#user-lucky-number").val("");
+            }
+        });
+    });
    
 })
