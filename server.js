@@ -1,5 +1,6 @@
 var express = require('express');
 var db = require('./models');
+var path = require('path')
 
 var app = express();
 var port =  8080;
@@ -8,7 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
 app.get("/", (req,res)=> {
-        res.send("wellcome home");
+        res.sendFile(path.join(__dirname,'/public/index.html'));
 });
 
 app.get("/api/users", (req,res)=> {
@@ -29,7 +30,11 @@ app.get('/api/users/:id', (req,res) =>{
         Where: {
             id : req.params.id
         }.then( function(data){
-            res.json(data)
+            if(data){
+               return res.json(data)
+            } else {
+                return res.status(404).json({"error":"user not found"})
+            }
         })
     })
 })
