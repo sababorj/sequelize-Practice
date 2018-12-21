@@ -24,6 +24,15 @@ app.post("/api/users", (req,res)=> {
     })
 })
 
+app.get('/api/users/:id', (req,res) =>{
+    db.User.findOne({
+        Where: {
+            id : req.params.id
+        }.then( function(data){
+            res.json(data)
+        })
+    })
+})
 
 
 db.sequelize.sync({}).then( function(){
